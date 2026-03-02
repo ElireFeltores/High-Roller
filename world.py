@@ -57,5 +57,5 @@ class HighRollerWorld(World):
         return items.get_random_filler_item_name(self)
     def fill_slot_data(self) -> Mapping[str, Any]:
         return self.options.as_dict(
-            "difficulty", "max_score", "goal_score", "check_density"
+            "difficulty", "max_score", "goal_score", "check_density", "death_link"
         )

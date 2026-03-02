@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
-from Options import Toggle, Choice, PerGameCommonOptions, Range
+from Options import Toggle, Choice, PerGameCommonOptions, Range, DeathLink
 if TYPE_CHECKING:
     from .world import HighRollerWorld
 
@@ -39,6 +39,9 @@ class ImportantItems(Choice):
     option_filled = 3
     option_overloaded = 4
     default = 2
+class HRDeathLink(DeathLink):
+    __doc__ = DeathLink.__doc__ + "\n\nGetting too many scythes in a line (i.e. getting negative score) sends a deathlink.\nReceiving a deathlink will cause a loss of 1-3 coins, depending on max coin count."
+
 @dataclass
 class HighRollerOptions(PerGameCommonOptions):
     difficulty: Difficulty
@@ -46,3 +49,4 @@ class HighRollerOptions(PerGameCommonOptions):
     goal_score: ScoreForGoal
     check_density: CheckDensity
     crit_items: ImportantItems
+    death_link: HRDeathLink
