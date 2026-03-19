@@ -26,7 +26,7 @@ class HighRollerWorld(World):
 #                    >= curscore,
 #            )
     def create_regions(self) -> None:
-        location_table = locations.ini_locations(self.options.goal_score, self.options.max_score, self.options.check_density)
+        location_table = locations.ini_locations(self.options.goal_score, self.options.max_score, self.options.check_density, self.options.all_in)
         main = Region("Main", self.player, self.multiworld)
         hold = Region("Hold", self.player, self.multiworld)
         hold.locations = [
@@ -57,5 +57,5 @@ class HighRollerWorld(World):
         return items.get_random_filler_item_name(self)
     def fill_slot_data(self) -> Mapping[str, Any]:
         return self.options.as_dict(
-            "difficulty", "max_score", "goal_score", "check_density", "death_link"
+            "difficulty", "max_score", "goal_score", "check_density", "death_link", "all_in", "add_points"
         )

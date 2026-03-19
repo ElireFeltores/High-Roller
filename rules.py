@@ -14,17 +14,18 @@ def roller_score_attainable(world, difficulty):
                     double_count = state.count("Double Score Usable", player),
                     difficulty = difficulty,
                     curscore = curscore,
-                    items = min(state.count("Jackpot Usable", player) + state.count("Lock On Usable", player) + state.count("Reroll Usable", player), 10)
+                    items = min(state.count("Jackpot Usable", player) + state.count("Lock On Usable", player) + state.count("Reroll Usable", player), 10),
+                    points = (state.count("5 Points", player) * 5) + (state.count("10 Points", player) * 10)
                ),
         )
 
 slot_scores = [7, 10, 20, 40, 100]
-def roller_score_logic_check(slots, coin, mult, double_count, difficulty, curscore, items):
+def roller_score_logic_check(slots, coin, mult, double_count, difficulty, curscore, items, points):
     score = int(slot_scores[slots] * (coin + 3) * (1 + (mult / 10)) + (slot_scores[slots] * (1 + (mult / 10)) * double_count))
     if slots > 0:
-        return curscore < int((score / (10 + (10 - items))) * difficulty)
+        return curscore < int((score / (10 + (10 - items))) * difficulty) + points
     else:
-        return curscore < int((score / 20) * difficulty)
+        return curscore < int((score / 20) * difficulty) + points
 
 def set_completion_condition(world) -> None:
     world.multiworld.completion_condition[world.player] = lambda state: state.has("Victory", world.player)

@@ -17,6 +17,9 @@ item_ids = {
         "Let's Go Gambling!": 8,
         "Unlucky Thirteens": 9,
         "EAV's Regards": 10,
+        "1 Point": 11,
+        "5 Points": 12,
+        "10 Points": 13,
     }
 
 default_item_classifications = {
@@ -30,16 +33,19 @@ default_item_classifications = {
     "Let's Go Gambling!": ItemClassification.filler,
     "Unlucky Thirteens": ItemClassification.filler,
     "EAV's Regards": ItemClassification.filler,
+    "1 Point": ItemClassification.useful,
+    "5 Points": ItemClassification.progression_deprioritized_skip_balancing,
+    "10 Points": ItemClassification.progression,
 }
 
 class HighRollerItem(Item):
     game = "High Roller"
 
 def get_random_filler_item_name(world: HighRollerWorld) -> str:
-    rand = world.random.randint(0, 51)
-    if rand < 25:
+    rand = world.random.randint(0, 8191)
+    if rand < 5374:
         return "Let's Go Gambling!"
-    if rand < 50:
+    if rand < 8191:
         return "Unlucky Thirteens"
     return "EAV's Regards"
 
@@ -79,7 +85,46 @@ def create_all_items(world: HighRollerWorld) -> None:
         world.create_item("Coin"),
         world.create_item("Coin"),
         world.create_item("Coin"),
+        world.create_item("Coin"),
+        world.create_item("Coin"),
     ]
+
+    if world.options.add_points == 1:
+        itempool.append(world.create_item("10 Points")),
+        itempool.append(world.create_item("10 Points")),
+        itempool.append(world.create_item("10 Points")),
+        itempool.append(world.create_item("10 Points")),
+        itempool.append(world.create_item("10 Points")),
+        itempool.append(world.create_item("10 Points")),
+        itempool.append(world.create_item("5 Points")),
+        itempool.append(world.create_item("5 Points")),
+        itempool.append(world.create_item("5 Points")),
+        itempool.append(world.create_item("5 Points")),
+        itempool.append(world.create_item("5 Points")),
+        itempool.append(world.create_item("5 Points")),
+        itempool.append(world.create_item("1 Point")),
+        itempool.append(world.create_item("1 Point")),
+        itempool.append(world.create_item("1 Point")),
+        itempool.append(world.create_item("1 Point")),
+        itempool.append(world.create_item("1 Point")),
+        itempool.append(world.create_item("1 Point")),
+        itempool.append(world.create_item("1 Point")),
+        itempool.append(world.create_item("1 Point")),
+        itempool.append(world.create_item("1 Point")),
+        itempool.append(world.create_item("1 Point")),
+
+    if world.options.difficulty < 8:
+        itempool.append(world.create_item("Score Multiplier")),
+    if world.options.difficulty < 7:
+        itempool.append(world.create_item("Score Multiplier")),
+        itempool.append(world.create_item("Score Multiplier")),
+        itempool.append(world.create_item("Coin")),
+    if world.options.difficulty < 6:
+        itempool.append(world.create_item("Score Multiplier")),
+        itempool.append(world.create_item("Score Multiplier")),
+        itempool.append(world.create_item("Coin")),
+        itempool.append(world.create_item("Coin")),
+
     if world.options.crit_items > 1:
         itempool.append(world.create_item("Coin")),
         itempool.append(world.create_item("Coin")),
@@ -92,6 +137,8 @@ def create_all_items(world: HighRollerWorld) -> None:
         itempool.append(world.create_item("Score Multiplier")),
         itempool.append(world.create_item("Score Multiplier")),
     if world.options.crit_items > 3:
+        itempool.append(world.create_item("Coin")),
+        itempool.append(world.create_item("Coin")),
         itempool.append(world.create_item("Coin")),
         itempool.append(world.create_item("Coin")),
         itempool.append(world.create_item("Score Multiplier")),

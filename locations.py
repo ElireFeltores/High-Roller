@@ -1,11 +1,10 @@
 from __future__ import annotations
-import typing
+import typing, datetime
 from BaseClasses import Location
 class LocData(typing.NamedTuple):
     id: int
     region: str
     score: int
-
 # Yes a lot of this location code was taken from Yacht Dice's APWorld
 class HighRollerLocation(Location):
     game = "High Roller"
@@ -16,7 +15,10 @@ all_locations = {}
 starting_index = 16871244500
 def all_locations_fun(max_score):
     return {f"{i} Score": LocData(starting_index + i, "Hold", i) for i in range(1, max_score + 1)}
-def ini_locations(goal_score, max_score, check_density):
+def ini_locations(goal_score, max_score, check_density, all_in):
+    if all_in:
+        check_density = 999
+        max_score = 2000
     scores = []
     highest_score = 0
     start_score = 0
@@ -32,6 +34,18 @@ def ini_locations(goal_score, max_score, check_density):
         if highest_score > max_score:
             break
         scores += [current_score]
+#    if datetime.datetime.today().month == 4:
+#        if datetime.datetime.today().day == 1:
+#            if max_score == -1:
+#                scores = []
+#                current_score = 0
+#                max_score = 2000
+#                while current_score < max_score:
+#                    current_score = round(current_score + 0.1, 1)
+#                    if current_score % 1 == 0:
+#                        current_score = int(current_score)
+#                    if current_score != goal_score and current_score != max_score:
+#                        scores += [current_score]
     if goal_score != max_score:
         if goal_score not in scores:
             closest_num = min(scores, key=lambda x: abs(x - goal_score))
@@ -40,4 +54,4 @@ def ini_locations(goal_score, max_score, check_density):
     location_table = {f"{score} Score": LocData(starting_index + score, "Hold", score) for score in scores}
     return location_table
 
-all_locations = all_locations_fun(2000)
+all_locations = all_locations_fun(20000)
